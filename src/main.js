@@ -6,8 +6,9 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import axios from 'axios';
+
 const form = document.querySelector('.search-form');
-const submitBtn = document.querySelector('.search-form-btn');
 const input = document.querySelector('.search-input');
 
 const gallery = document.querySelector('.gallery');
@@ -17,6 +18,12 @@ const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const showLoader = () => loader.classList.add('active');
 const hideLoader = () => loader.classList.remove('active');
+
+// пагінація
+const loadBtn = document.querySelector('.load-more-btn');
+
+let page = 1;
+let perPage = 40;
 
 // Pixabay
 // HTTP - запити;
@@ -37,13 +44,8 @@ const searchImg = () => {
 
   showLoader();
 
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
+  axios
+    .get(url)
     .then(({ hits }) => {
       hideLoader();
 
@@ -51,6 +53,7 @@ const searchImg = () => {
         iziToast.error({
           message:
             'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
         });
       } else {
         gallery.innerHTML = hits
@@ -97,7 +100,6 @@ const searchImg = () => {
         captionDelay: 250,
         captionType: 'attr',
         captionsData: 'alt',
-        position: 'topRight',
       });
       lightbox.refresh();
     })
