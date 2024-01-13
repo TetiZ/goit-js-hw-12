@@ -13,6 +13,9 @@ const input = document.querySelector('.search-input');
 
 const gallery = document.querySelector('.gallery');
 
+const API_KEY = '41640115-31701c1b62cbb4a16b6499d34';
+const API_URL = 'https://pixabay.com/api/';
+
 // spinner
 
 const loader = document.querySelector('.loader');
@@ -20,52 +23,106 @@ const showLoader = () => loader.classList.add('active');
 const hideLoader = () => loader.classList.remove('active');
 
 // пагінація
-const loadBtn = document.querySelector('.load-more-btn');
 
 let page = 1;
 let perPage = 40;
+let totalPages;
+
+const loadBtn = document.querySelector('.load-more-btn');
+loadBtn.classList.add('inactive');
+
+const fetchImg = async () => {
+  if (page >= totalPages) {
+    loadBtn.classList.add('inactive');
+    iziToast.error({
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight',
+    });
+  }
+
+  try {
+    showLoader();
+    await searchImg();
+    page += 1;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+loadBtn.addEventListener('click', fetchImg);
 
 // Pixabay
 // HTTP - запити;
+
+// User request field
+
+form.addEventListener('input', e => {
+  e.preventDefault();
+
+  try {
+    localStorage.setItem('userInput', e.target.value);
+  } catch (error) {
+    console.error('LocalStorage error:', error.message);
+  }
+});
+
 // event listener
 
-const searchImg = () => {
-  const inputText = input.value;
+const searchImg = async () => {
+  const inputText = localStorage.getItem('userInput') || '';
 
   const params = new URLSearchParams({
-    key: '41640115-31701c1b62cbb4a16b6499d34',
+    key: API_KEY,
     q: `${inputText}`,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    page: page,
+    per_page: perPage,
   });
 
-  const url = `https://pixabay.com/api/?${params}`;
+  const url = `${API_URL}?${params}`;
 
   showLoader();
 
-  axios
-    .get(url)
-    .then(({ hits }) => {
-      hideLoader();
+  try {
+    const response = await axios.get(url);
+    const { hits } = response.data;
+    totalPages = Math.ceil(response.data.totalHits / perPage);
+    hideLoader();
 
-      if (hits.length === 0) {
-        iziToast.error({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          position: 'topRight',
-        });
-      } else {
-        gallery.innerHTML = hits
-          .map(
-            hit => `
-              
+    if (hits.length === 0) {
+      iziToast.error({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight',
+      });
+    } else {
+      renderImg(hits);
+    }
+
+    let lightbox = new SimpleLightbox('.gallery a', {
+      captionDelay: 250,
+      captionType: 'attr',
+      captionsData: 'alt',
+    });
+    lightbox.refresh();
+  } catch (error) {
+    console.log(error);
+    hideLoader();
+  }
+};
+
+const renderImg = hits => {
+  const markup = hits
+    .map(
+      hit => `
               <li class="gallery-item">
                 <a class="gallery-link" href=${hit.largeImageURL}>
                     <img
                       class="gallery-image"
                       src=${hit.webformatURL}
-                      alt=${hit.tags}
+                      alt="${hit.tags}"
                     />
                   
                   <div class="img-info-wrapper">
@@ -92,27 +149,23 @@ const searchImg = () => {
               </a>
             </li>
             `
-          )
-          .join('');
-      }
-
-      let lightbox = new SimpleLightbox('.gallery a', {
-        captionDelay: 250,
-        captionType: 'attr',
-        captionsData: 'alt',
-      });
-      lightbox.refresh();
-    })
-    .catch(error => {
-      console.log(error);
-      hideLoader();
-    });
+    )
+    .join('');
+  gallery.insertAdjacentHTML('beforeend', markup);
 };
 
-const submitHandler = e => {
+const submitHandler = async e => {
   e.preventDefault();
   gallery.innerHTML = '';
-  searchImg();
+  page = 1;
+  loadBtn.classList.remove('inactive');
+
+  try {
+    searchImg();
+  } catch (error) {
+    console.log(error);
+  }
+
   form.reset();
 };
 

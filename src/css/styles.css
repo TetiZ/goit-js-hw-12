@@ -178,3 +178,13 @@ img {
 .search-form-btn:focus {
   background: #4f9b62;
 }
+
+/* Load more */
+
+.load-more-btn {
+  display: flex;
+}
+
+.inactive {
+  display: none;
+}
