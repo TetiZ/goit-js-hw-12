@@ -1,34 +1,34 @@
-import{a as v,i as p,S as L}from"./assets/vendor-89feecc5.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))a(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const c of t.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&a(c)}).observe(document,{childList:!0,subtree:!0});function s(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerpolicy&&(t.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?t.credentials="include":e.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function a(e){if(e.ep)return;e.ep=!0;const t=s(e);fetch(e.href,t)}})();const l=document.querySelector(".search-form");document.querySelector(".search-input");const g=document.querySelector(".gallery"),b="41640115-31701c1b62cbb4a16b6499d34",w="https://pixabay.com/api/",u=document.querySelector(".loader"),f=()=>u.classList.add("active"),d=()=>u.classList.remove("active");let i=1,m=40,h;const n=document.querySelector(".load-more-btn");n.classList.add("inactive");const S=async()=>{i>=h&&(n.classList.add("inactive"),p.error({message:"We're sorry, but you've reached the end of search results.",position:"topRight"}));try{f(),await y(),i+=1}catch(r){console.log(r)}};n.addEventListener("click",S);l.addEventListener("input",r=>{r.preventDefault();try{localStorage.setItem("userInput",r.target.value)}catch(o){console.error("LocalStorage error:",o.message)}});const y=async()=>{const r=localStorage.getItem("userInput")||"",o=new URLSearchParams({key:b,q:`${r}`,image_type:"photo",orientation:"horizontal",safesearch:!0,page:i,per_page:m}),s=`${w}?${o}`;f();try{const a=await v.get(s),{hits:e}=a.data;h=Math.ceil(a.data.totalHits/m),d(),e.length===0?p.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"}):I(e),new L(".gallery a",{captionDelay:250,captionType:"attr",captionsData:"alt"}).refresh()}catch(a){console.log(a),d()}},I=r=>{const o=r.map(s=>`
+import{a as v,i as p,S as L}from"./assets/vendor-89feecc5.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const c of r.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&s(c)}).observe(document,{childList:!0,subtree:!0});function a(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerpolicy&&(r.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?r.credentials="include":e.crossorigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function s(e){if(e.ep)return;e.ep=!0;const r=a(e);fetch(e.href,r)}})();const l=document.querySelector(".search-form"),w=document.querySelector(".search-input"),u=document.querySelector(".gallery"),b="41640115-31701c1b62cbb4a16b6499d34",S="https://pixabay.com/api/",f=document.querySelector(".loader"),y=()=>f.classList.add("active"),g=()=>f.classList.remove("active"),I=o=>{const t=o.map(a=>`
               <li class="gallery-item">
-                <a class="gallery-link" href=${s.largeImageURL}>
+                <a class="gallery-link" href=${a.largeImageURL}>
                     <img
                       class="gallery-image"
-                      src=${s.webformatURL}
-                      alt="${s.tags}"
+                      src=${a.webformatURL}
+                      alt="${a.tags}"
                     />
                   
                   <div class="img-info-wrapper">
                     <div class="img-part-info-wrapper">
                     <h3 class="img-info-title">Likes</h3>
-                      <p class="img-info">${s.likes}</p>
+                      <p class="img-info">${a.likes}</p>
                     </div>
   
                     <div class="img-part-info-wrapper">
                     <h3 class="img-info-title">Views</h3>
-                      <p class="img-info">${s.views}</p>
+                      <p class="img-info">${a.views}</p>
                     </div>
   
                     <div class="img-part-info-wrapper">
                     <h3 class="img-info-title">Comments</h3>
-                      <p class="img-info">${s.comments}</p>
+                      <p class="img-info">${a.comments}</p>
                     </div>
   
                     <div class="img-part-info-wrapper">
                     <h3 class="img-info-title">Downloads</h3>
-                      <p class="img-info">${s.downloads}</p>
+                      <p class="img-info">${a.downloads}</p>
                     </div>
                   </div>
               </a>
             </li>
-            `).join("");g.insertAdjacentHTML("beforeend",o)},$=async r=>{r.preventDefault(),g.innerHTML="",i=1,n.classList.remove("inactive");try{y()}catch(o){console.log(o)}l.reset()};l.addEventListener("submit",$);
+            `).join("");u.insertAdjacentHTML("beforeend",t)},d=async()=>{const o=localStorage.getItem("userInput")||"",t=new URLSearchParams({key:b,q:`${o}`,image_type:"photo",orientation:"horizontal",safesearch:!0,page:i,per_page:m}),a=`${S}?${t}`;y();try{const s=await v.get(a),{hits:e}=s.data;h=Math.ceil(s.data.totalHits/m),g(),e.length===0?p.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"}):I(e),new L(".gallery a",{captionDelay:250,captionType:"attr",captionsData:"alt"}).refresh()}catch(s){console.log(s),g()}};let i=1,m=40,h;const $=async()=>{i>=h&&(n.classList.add("inactive"),p.error({message:"We're sorry, but you've reached the end of search results.",position:"topRight"}));try{y(),await d(),i+=1}catch(o){console.log(o)}},n=document.querySelector(".load-more-btn");n.classList.add("inactive");n.addEventListener("click",async()=>{await $(),q()});l.addEventListener("submit",async o=>{o.preventDefault();try{localStorage.setItem("userInput",w.value),i=1,await d()}catch(t){console.error("LocalStorage error:",t.message)}});const q=()=>{const t=document.querySelector(".gallery-item").getBoundingClientRect();console.log(t),window.scrollBy({top:t.height*2,behavior:"smooth"})},P=async o=>{o.preventDefault(),u.innerHTML="",i=1;try{await d()}catch(t){console.log(t)}l.reset(),n.classList.remove("inactive")};l.addEventListener("submit",P);
 //# sourceMappingURL=commonHelpers.js.map
