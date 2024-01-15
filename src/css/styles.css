@@ -116,18 +116,18 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .gallery-item {
   width: calc((100% - 96px) / 5);
-  height: 248px;
+  height: 220px;
   border: 1px solid #242424;
   border-radius: 4px;
 }
 
 .gallery-image {
-  height: 200px;
+  height: 172px;
   object-fit: cover;
 }
 
