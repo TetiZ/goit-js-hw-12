@@ -181,7 +181,7 @@ form.addEventListener('submit', async e => {
 
   try {
     localStorage.setItem('userInput', input.value);
-    page = 1; // reset page when a new search is submitted
+    page = 1;
     await searchImg();
   } catch (error) {
     console.error('LocalStorage error:', error.message);
