@@ -122,13 +122,13 @@ img {
 
 .gallery-item {
   width: calc((100% - 96px) / 5);
-  height: 216px;
+  height: 224px;
   border: 1px solid #242424;
   border-radius: 4px;
 }
 
 .gallery-image {
-  height: 168px;
+  height: 176px;
   object-fit: cover;
 }
 
