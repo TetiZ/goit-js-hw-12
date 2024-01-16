@@ -20,13 +20,23 @@
           />
         </label>
 
-        <button type="submit" class="search-form-btn">Search</button>
+        <button type="submit" class="search-form-btn btn">Search</button>
       </form>
     </div>
     <span class="loader"></span>
     <div class="gallery"></div>
 
-    <button type="button" class="load-more-btn">Load more</button>
+    <button type="button" class="load-more-btn btn">
+      <svg
+        class="load-more-btn-icon arrow"
+        width="24"
+        height="24"
+        aria-label="arrow down icon"
+      >
+        <use href="./img/icons.svg#icon-arrow-down"></use>
+      </svg>
+      Load more
+    </button>
 
     <script type="module" src="./main.js"></script>
   </body>

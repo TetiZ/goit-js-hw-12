@@ -8,6 +8,9 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import './css/simple-light-box-modal.css';
+import iconsPath from './img/icons.svg';
+
 import axios from 'axios';
 
 // variables
@@ -108,6 +111,28 @@ const searchImg = async () => {
       captionDelay: 250,
       captionType: 'attr',
       captionsData: 'alt',
+      navText: [
+        `<svg
+              class="lightbox-button-icon-prev gallery-arrow"
+              width="24"
+              height="24"
+              aria-label="icon arrow left">
+            <use href="${iconsPath}#icon-arrow-left"></use>
+        </svg>`,
+        `<svg
+              class="lightbox-button-icon-next gallery-arrow"
+              width="24"
+              height="24"
+              aria-label="icon arrow right">
+            <use href="${iconsPath}#icon-arrow-right"></use>
+        </svg>`,
+      ],
+      closeText: `<svg
+              class="lightbox-close-icon"
+              width="32"
+              height="32">
+            <use href="${iconsPath}#icon-close"></use>
+      </svg>`,
     });
 
     lightbox.refresh();
